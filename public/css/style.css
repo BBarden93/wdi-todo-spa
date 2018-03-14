@@ -1,0 +1,28 @@
+body {
+    background: rgba(169, 197, 221, 0.37);
+    text-align: center;;
+}
+
+h1{
+    color: rgb(91, 90, 90);
+}
+ul {
+    text-align: left;
+}
+#list {
+    margin: 30px auto;
+    border-radius: 5px;
+    background-color: rgb(189, 181, 181);
+    width:300px ;
+    padding: 25px;
+    box-sizing: border-box;
+}
+button {
+    padding: 2.5px;
+}
+.toggle-comlplete {
+    float: right;
+}
+.delete {
+    float: right;
+}

@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" type="text/css" href="/css/style.css" >
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <!-- Axios -->
@@ -12,10 +13,58 @@
 </head>
 <body>
   <h1>To-Do SPA</h1>
+  <!-- input field and button -->
+  <input id="newTodo-input" type="text" placeholder="New Item" />
+  <button id="newTodo-btn">New Item</button>
+  <!-- when you click on button console.log the value of input field -->
+  
+  <!-- use value to send apost request -->
+  <ul id="list">
+    
+  </ul>
 
   <script>
-    // your code:
+    var $list = $('#list')
+    var $newTodoBtn = $('#newTodo-btn')
+    var $newTodoInput = $('#newTodo-input')
+
     var httpClient = axios.create()
+    
+    // When page, loads grab all todos
+    httpClient({url: '/api/todos'}).then((serverResponse) => {
+      console.log(serverResponse.data)
+      serverResponse.data.forEach((todo) => {
+        $list.append(`
+          <li id="${todo._id}">
+          <span>${todo.body}</span>
+          <button class="toggle-complete">Mark Completed</button>
+          <button class="delete">Delete</button>
+          </li>
+        `)
+      })
+    })
+    // When new todo button is clicked, send post request 
+    $newTodoBtn.on('click', () => {
+      var listItem = $newTodoInput.val()
+      const options = {
+        url: '/api/todos',
+        method: 'post',
+        data: {body: listItem}
+      }
+      httpClient(options).then((serverResponse) => {
+        console.log(serverResponse.data)
+        var todo = serverResponse.data.todo 
+        $list.append(`
+          <li id="${todo._id}">
+          <span>${todo.body}</span>
+          <button class="toggle-complete">Mark Completed</button>
+          <button class="delete">Delete</button>
+          </li>
+        `)
+        // Clear the input field after posting
+        $newTodoInput.val('')
+      })
+    })
     
     // The front-end
     // 1. When a user goes to localhost:3000, they'll be served this html file. This script should immediately attempt to load all Todo items, and display them in <li> tags within a <ul>. Each <li> will have a <span> that contains the todo body, and buttons to toggle complete and delete.
