@@ -1,6 +1,6 @@
 body {
     background: rgba(169, 197, 221, 0.37);
-    text-align: center;;
+    text-align: center;
 }
 
 h1{
@@ -26,4 +26,8 @@ button {
 }
 .delete {
     float: right;
+}
+
+li.completed span {
+    text-decoration: line-through;
 }
