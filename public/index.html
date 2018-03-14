@@ -22,25 +22,28 @@
   <ul id="list">
     
   </ul>
-
   <script>
     var $list = $('#list')
     var $newTodoBtn = $('#newTodo-btn')
     var $newTodoInput = $('#newTodo-input')
 
     var httpClient = axios.create()
-    
-    // When page, loads grab all todos
-    httpClient({url: '/api/todos'}).then((serverResponse) => {
-      console.log(serverResponse.data)
-      serverResponse.data.forEach((todo) => {
-        $list.append(`
+  
+    function appendTodo(todo) {
+      $list.append(`
           <li id="${todo._id}">
           <span>${todo.body}</span>
           <button class="toggle-complete">Mark Completed</button>
           <button class="delete">Delete</button>
           </li>
         `)
+    }
+
+    // When page, loads grab all todos
+    httpClient({url: '/api/todos'}).then((serverResponse) => {
+      console.log(serverResponse.data)
+      serverResponse.data.forEach((todo) => {
+        appendTodo(todo)
       })
     })
     // When new todo button is clicked, send post request 
@@ -54,13 +57,7 @@
       httpClient(options).then((serverResponse) => {
         console.log(serverResponse.data)
         var todo = serverResponse.data.todo 
-        $list.append(`
-          <li id="${todo._id}">
-          <span>${todo.body}</span>
-          <button class="toggle-complete">Mark Completed</button>
-          <button class="delete">Delete</button>
-          </li>
-        `)
+        appendTodo(todo)
         // Clear the input field after posting
         $newTodoInput.val('')
       })
